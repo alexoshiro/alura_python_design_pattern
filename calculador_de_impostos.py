@@ -24,3 +24,8 @@ if __name__ == '__main__':
     print('ICMS', icms)
     print('ICPP', icpp)
     print('IKCV', ikcv)
+
+    iss_com_icms = calculador.realiza_calculo(orcamento, ISS(ICMS()))
+    icpp_com_ikcv = calculador.realiza_calculo(orcamento, ICPP(IKCV()))
+    print('ISS COM ICMS', iss_com_icms)
+    print('ICPP COM IKCV', icpp_com_ikcv)

@@ -1,14 +1,28 @@
 from abc import ABCMeta, abstractmethod
 
-class Template_de_imposto_condicional(object):
+class Imposto(object):
+    def __init__(self, outro_imposto = None):
+        self.__outro_imposto__ = outro_imposto
+
+    def calculo_do_outro_imposto(self, orcamento):
+        if(self.__outro_imposto__ is None):
+            return 0
+        else:
+            return self.__outro_imposto__.calcula(orcamento)
+
+    @abstractmethod
+    def calcula(self, orcamento):
+        pass
+
+class Template_de_imposto_condicional(Imposto):
 
     __metaclass__ = ABCMeta
 
     def calcula(self, orcamento):
         if(self.deve_usar_maxima_taxacao(orcamento)):
-            return self.maxima_taxacao(orcamento)
+            return self.maxima_taxacao(orcamento) + self.calculo_do_outro_imposto(orcamento)
         else:
-            return self.minima_taxacao(orcamento)
+            return self.minima_taxacao(orcamento)+ self.calculo_do_outro_imposto(orcamento)
 
     @abstractmethod
     def deve_usar_maxima_taxacao(self, orcamento):
@@ -23,13 +37,13 @@ class Template_de_imposto_condicional(object):
         pass
 
 
-class ISS(object):
+class ISS(Imposto):
     def calcula(self, orcamento):
-        return orcamento.valor * 0.1
+        return orcamento.valor * 0.1 + self.calculo_do_outro_imposto(orcamento)
 
-class ICMS(object):
+class ICMS(Imposto):
     def calcula(self, orcamento):
-        return orcamento.valor * 0.06
+        return orcamento.valor * 0.06 + self.calculo_do_outro_imposto(orcamento)
 
 class ICPP(Template_de_imposto_condicional):
 
