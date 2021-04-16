@@ -8,7 +8,7 @@ class Criador_de_nota_fiscal(object):
         self.__data_de_emissao = None
         self.__itens = None
         self.__detalhes = None
-    
+        
     def com_razao_social(self, razao_social):
         self.__razao_social = razao_social
         return self
